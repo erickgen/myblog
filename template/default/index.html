@@ -1,0 +1,29 @@
+<!--页头-博客标题-->		
+<div>{{site_title}}</div>
+<!--最新文章标题-->		
+<div>{{post_latest_subject}}</div>
+<!--最新文章简介-->		
+<div>{{post_latest_introduction}}</div>
+<!--最新文章分类-->		
+<div>{{post_latest_category}}</div>
+<!--最新文章发布时间-->		
+<div>{{post_latest_createat}}</div>
+<!--最新文章查看全文-->		
+<div><a href="{{post_latest_url}}">继续阅读全文</a></div>
+
+<!--最新文件列表-->
+<div>
+最新文章
+{{loop foreach=post_new_list item=item}}
+<div>
+{{item.createat}}
+<a href="{{item.url}}">{{item.subject}}</a>
+</div>
+{{/loop}}
+<div><a href="{{more_article_url}}">更多文章......</a></div>
+</div>
+
+<!--页尾版权信息-->
+<div>
+{{copyright_info}}
+</div>

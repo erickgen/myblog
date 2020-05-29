@@ -1,0 +1,14 @@
+hello
+<script type="text/javascript">
+(async function()
+{
+	await CefSharp.BindObjectAsync("boundAsync");
+	aa = new Array();
+	boundAsync.print("jsonstr").then(function(actualResult)
+	{
+		alert(actualResult);
+		//const expectedResult = 18;
+		//assert.equal(expectedResult, actualResult, "Add 16 + 2 resulted in " + expectedResult);
+	});
+})();
+</script>
