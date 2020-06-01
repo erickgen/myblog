@@ -1,0 +1,32 @@
+<!--站点标题-->		
+<div>
+<div>{{site_title}}</div>
+<div><a href="{{site_domain}}/index.html">首页</a> 》》 <a href="{{site_domain}}/archives.html">列表</a></div>
+</div>
+
+<div>分类：{{cur_name}} （共{{total_number}}篇）</div>
+
+<!--文章列表-->
+<div>
+{{loop foreach=article_list item=item}}
+<div>
+{{item.createat}}
+<a href="{{item.url}}">{{item.subject}}</a> {{item.createat}}
+</div>
+{{/loop}}
+</div>
+
+<!--分类列表-->
+<div>
+分类
+{{loop foreach=category_list item=item}}
+<div>
+<a href="{{item.url}}">{{item.name}}</a>（{{item.number}}）
+</div>
+{{/loop}}
+</div>
+
+<!--页尾版权信息-->
+<div>
+{{copyright_info}}
+</div>
