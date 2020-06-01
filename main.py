@@ -3,6 +3,7 @@
 import configparser
 import sys
 import time
+import re
 
 sys.path.append(r"./evernotesdk/lib")
 
@@ -45,49 +46,71 @@ if not version_ok:
 
 note_store = client.get_note_store()
 
+# 取配置的分类
 notebooks = note_store.listNotebooks()
 notebookname = conf.get("env", "notebook")
-notebookguid = None
+notebook_names = notebookname[1:-1].replace("'","").replace('"',"").split(",")
+
+notebook_guids = {}
 for notebook in notebooks:
-    if notebookname == notebook.name: notebookguid = notebook.guid
+	if notebook.name in notebook_names : notebook_guids[notebook.guid] = notebook.name
 
 # 取最近4条笔记
-searchfilter = NoteFilter(notebookGuid=notebookguid)
-offset       = 0
-maxnotes     = 4
-articlelist = note_store.findNotes(searchfilter, offset, maxnotes)
+article_list = {}
+for guid,_  in notebook_guids.items():
+	searchfilter = NoteFilter(notebookGuid=guid)
+	offset       = 0
+	maxnotes     = 8
+	article_list[guid] = note_store.findNotes(searchfilter, offset, maxnotes)
 
-if None == articlelist:
+if not bool(article_list):
 	print(notebookname+"的笔记本中没有数据")
 	exit(1)
 
-
 # 找到最后更新的guid
 latestflag = getLatestArticleFlag(conf.get("path", "latestflag"))
+over_loop = False
 
-if latestflag == articlelist.notes[0].guid and latestflag != None:
-	print("没有新数据需要更新")
-	exit(1)
+def xml2Html(xml_content):
+	html = xml_content.split("<en-note>")[1].replace("</en-note>", "")
+	pa1 = re.compile(r"\<en\-media.*\s+hash\=\"[0-9a-z+]+\".*\<\/en\-media\>", re.M)
+	re_data1  = re.findall(pa1, html)
 
-for row in articlelist.notes:
-	data = {}
-	data["guid"] = row.guid
-	data["title"] = row.title
-	data["content"] = row.content
-	data["created"] = formatDate(row.created)
-	data["updated"] = formatDate(row.updated)
-	content = note_store.getNoteContent(row.guid)
-	print(content)
+	pa2 = re.compile(r"\<en\-media.*\s+hash\=\"[0-9a-z+]+\"/\>", re.M)
+	re_data2  = re.findall(pa2, html)
 
-	if None != row.resources:
-		for image in row.resources:
-			suffix = image.mime[image.mime.find("/")+1:]
-			print(image.width)
-			print(image.height)
-			#生成图片
-			binary_data = note_store.getResourceData(image.guid)
-			file_name = hashlib.md5(binary_data).hexdigest()
-			file_path = "./wwwroot/upload/"+file_name + "." + suffix
-			image = open(file_path,'wb')
-			image.write(bytes(binary_data))
-			image.close()
+	match_items = re_data1 + re_data2;
+	for row in match_items:
+		img = row.split("hash=")[1].split('"')[1]
+		element_image = "<img src='/upload/"+img+".png'/>"
+		html = html.replace(row, element_image)
+	return html
+
+for notebook_guid, notebook_article in article_list.items():
+	if True == over_loop: break;
+	for row in notebook_article.notes:
+		if latestflag == row.guid: 
+			over_loop = True
+			break
+		data = {}
+		data["guid"] = row.guid
+		data["title"] = row.title
+		data["content"] = row.content
+		data["created"] = formatDate(row.created)
+		data["updated"] = formatDate(row.updated)
+		content = note_store.getNoteContent(row.guid)
+		content = xml2Html(content)
+		print(content)
+
+		if None != row.resources:
+			for image in row.resources:
+				suffix = image.mime[image.mime.find("/")+1:]
+				print(image.width)
+				print(image.height)
+				#生成图片
+				binary_data = note_store.getResourceData(image.guid)
+				file_name = hashlib.md5(binary_data).hexdigest()
+				file_path = "./wwwroot/upload/"+file_name + "." + suffix
+				image = open(file_path,'wb')
+				image.write(bytes(binary_data))
+				image.close()
