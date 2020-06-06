@@ -5,23 +5,24 @@ import sys
 import time
 import re
 
-sys.path.append(r"./evernotesdk/lib")
+sys.path.append(r"./libs/evernotesdk/lib")
 
 import hashlib
 import binascii
+import os
 import evernote.edam.userstore.constants as UserStoreConstants
 import evernote.edam.type.ttypes as Types
-import os
 from evernote.api.client import EvernoteClient
-
 from evernote.edam.notestore.ttypes import NoteFilter
 
-from libs.utils import formatDate,convertBool
-from libs.data  import getLatestArticleFlag
+from utils.mytime import formatDate
+from utils.string import convertBool
+
+from core.data  import getLatestArticleFlag
 
 
 conf = configparser.ConfigParser(allow_no_value=True)
-conf.read("./conf/site.ini")
+conf.read("./config.ini")
 sandbox = convertBool(conf.get("env", "sandbox"))
 china   = convertBool(conf.get("env", "china"))
 
@@ -110,7 +111,7 @@ for notebook_guid, notebook_article in article_list.items():
 				#生成图片
 				binary_data = note_store.getResourceData(image.guid)
 				file_name = hashlib.md5(binary_data).hexdigest()
-				file_path = "./wwwroot/upload/"+file_name + "." + suffix
+				file_path = "./html/upload/"+file_name + "." + suffix
 				image = open(file_path,'wb')
 				image.write(bytes(binary_data))
 				image.close()
