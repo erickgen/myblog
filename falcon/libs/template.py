@@ -3,7 +3,7 @@ import re
 模板解析和变量分配
 """
 
-class TemplateParsing:
+class Template:
 
 	def __init__(self, data):
 		self.data = data
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 		'createat':"211111111111",
 		'username':"genghonghao",
 	}
-	tp = TemplateParsing(original_data)
+	tp = Template(original_data)
 	result_data = tp.assign(varss)
 	print(result_data)
 """
