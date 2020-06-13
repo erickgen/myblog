@@ -53,15 +53,14 @@ class Note:
 
 		self.notebook_guids = notebook_guids
 
-	def getsContent(self):
+	def getsContent(self, limit):
 		self.getsNoteBooks()
 		# 取最近4条笔记
 		article_list = {}
 		for guid, _  in self.notebook_guids.items():
 			searchfilter = NoteFilter(notebookGuid=guid)
 			offset       = 0
-			maxnotes     = 4
-			article_list[guid] = self.note_store.findNotes(searchfilter, offset, maxnotes)
+			article_list[guid] = self.note_store.findNotes(searchfilter, offset, limit)
 
 		if not bool(article_list):
 			#print(notebookname+"的笔记本中没有数据")
@@ -71,6 +70,8 @@ class Note:
 		for notebook_guid, notebook_article in article_list.items():
 			for row in notebook_article.notes:
 				data = {}
+				if True != row.active: continue
+				data["deleted"] = row.deleted # None or True
 				data["guid"] = row.guid
 				data["title"] = row.title
 				data["content"] = row.content
@@ -79,6 +80,7 @@ class Note:
 				content = self.note_store.getNoteContent(row.guid)
 				content = xml2Html(content)
 				data["notebook_guid"] = notebook_guid 
+				data["notebook_name"] = self.notebook_guids[notebook_guid]
 				data["content"] = content
 				return_data[row.guid] = data
 
