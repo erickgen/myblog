@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="/assets/css/style.css">
-	<title>{{site_title}} | {{site_blog}}</title>
+	<title>{{site_title}} | {{title}}</title>
   </head>
 
   <body>
@@ -19,24 +18,24 @@
 <p><a href="{{site_domain}}/index.html">首页</a> . <a href="{{site_domain}}/archives.html">列表</a></p>
         </section>
         <section id="downloads" class="clearfix">
-		<a href="{{cate_url}}">{{cate_name}}</a>
-		上一篇：<a href="{{previous_url}}">{{previous_subject}}</a>
-		下一篇：<a href="{{next_url}}">{{next_subject}}</a>
+		<a href="{{notebook_url}}">{{notebook_name}}</a>
+		上一篇：<a href="{{prev_url}}">{{prev_title}}</a>
+		下一篇：<a href="{{next_url}}">{{next_title}}</a>
         </section>
 
         <section id="main_content">
-          <h2 id="welcome-to-github-pages">{{blog_subject}}</h2>
-<p>作者：{{blog_author}}     日期：{{blog_created}}</p>
-<p>{{blog_content}}</p>
+          <h2 id="welcome-to-github-pages">{{title}}</h2>
+<p>作者：{{author}}     日期：{{created}}</p>
+<p>{{content}}</p>
 <h3 id="support-or-contact">文档信息</h3>
 <p>
 版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）
 <br/>
-发表日期：{{blog_created}} 
+发表日期：{{created}} 
 </p>
 </section>
 <footer>
-	{{copyright_info}}
+	{{site_copyright}}
 </footer>
 </div>
 </div>

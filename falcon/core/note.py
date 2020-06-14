@@ -66,7 +66,7 @@ class Note:
 			#print(notebookname+"的笔记本中没有数据")
 			return False
 
-		return_data = {}
+		return_data = []
 		for notebook_guid, notebook_article in article_list.items():
 			for row in notebook_article.notes:
 				data = {}
@@ -82,7 +82,7 @@ class Note:
 				data["notebook_guid"] = notebook_guid 
 				data["notebook_name"] = self.notebook_guids[notebook_guid]
 				data["content"] = content
-				return_data[row.guid] = data
+				return_data.append(data)
 
 				if None != row.resources:
 					for image in row.resources:
@@ -98,4 +98,5 @@ class Note:
 						image = open(file_path,'wb')
 						image.write(bytes(binary_data))
 						image.close()
+		return_data = sorted(return_data, key=lambda keys:keys['created'], reverse=True)
 		return return_data

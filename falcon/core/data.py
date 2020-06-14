@@ -2,16 +2,6 @@
 from utils.myfile import createJsonFile
 from utils.myfile import readJsonFile
 
-'''
-json_item ={
-	"subject":"测试标题",
-	"guid":"abcdefgamadd",
-	"created":"2020-05-29",
-	"cate_guid":"xxxxx",
-	"cate_name":"xxxxx",
-}
-'''
-
 class Data:
 	def __init__(self):
 		self.filename = "./data/articles.json"
@@ -37,7 +27,32 @@ class Data:
 	# 读取数据内容
 	def fetchItems(self):
 		json_data = readJsonFile(self.filename)
+		json_data = sorted(json_data, key=lambda keys:keys['created'], reverse=True)
 		return json_data
+
+	# 获取当前记录的上条记录和下一条记录
+	def fetchPrevAndNext(self, guid):
+		json_data = self.fetchItems()
+		cur_index = False
+		for index, row in enumerate(json_data):
+			if guid == row["guid"]:
+				cur_idx = index
+				break
+		if False == cur_idx: return None, None
+		next_idx = cur_idx - 1
+		if next_idx > 0:
+			next_row = json_data[next_idx]
+		else:
+			next_row = None
+
+		prev_idx = cur_idx + 1
+		if (len(json_data) - 1) < prev_idx:
+			prev_row = None
+		else:
+			prev_row = json_data[prev_idx]
+
+		return prev_row, next_row
+
 
 	# 获取最新一篇文章
 	def fetchLatestItem(self):
@@ -45,9 +60,9 @@ class Data:
 		return json_data[0]
 
 	# 获取最近10篇文章
-	def fetchRecentItems(self):
+	def fetchRecentItems(self, number):
 		json_data = self.fetchItems()
-		return json_data[0:10]
+		return json_data[0:number]
 
 	# 获取年度文章
 	def fetchArticlesByYear(self):
@@ -76,17 +91,17 @@ class Data:
 		json_data = self.fetchItems()
 		ret_data  = []
 		for _, row in enumerate(json_data):
-			if categuid == row["cate_guid"]: ret_data.append(row)
+			if categuid == row["notebook_guid"]: ret_data.append(row)
 		return ret_data
 
 	# 获取所有分类信息
-	def fetchCates(self):
+	def fetchCategorys(self):
 		json_data = self.fetchItems()
 		ret_data  = {}
 		for _, row in enumerate(json_data):
-			key = row["cate_guid"]
+			key = row["notebook_guid"]
 			if False == ret_data.has_key(key):
-				ret_data[key] = {"number":1, "name":row["cate_name"]} 
+				ret_data[key] = {"number":1, "name":row["notebook_name"]} 
 			else:
 				ret_data[key]["number"] += ret_data[key]["number"]
 

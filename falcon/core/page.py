@@ -4,29 +4,71 @@ from utils.myfile import createFile
 from utils.myfile import readFile
 
 class Page:
-	def __init__(self, theme_name, article):
-		self.theme_name = theme_name
-		self.article = article
+	def __init__(self, theme_name):
+		self.theme_path = './themes/' + theme_name
+		self.html_path  = './html/'
+		self.root_path  = ''
 
-	# 生成文章详情页
-	def createDetail(self):
-		tpl_file = './themes/' + self.theme_name + '/detail.html'
-		if False == tpl_file: return False
-		tpl_html = readFile(tpl_file)
+	# 取得html文件路径
+	def fetchPageUrl(self, pagekey, pagename):
+		if "detail" == pagekey:
+			return self.root_path + '/archives/' + pagename + '.html'
+		elif "index" == pagekey:
+			return self.root_path + '/index.html'
+		elif "category" == pagekey:
+			return self.root_path + '/category/' + pagename + '.html'
+		elif "date" == pagekey:
+			return self.root_path + '/date/' + pagename + '.html'
+		return None
 
-		template  = Template(tpl_html)
-		page_html = template.assign(self.article)
+	
+	# 模板和html的对应关系
+	def templateHtmlRelation(self, pagekey, pagename):
+		ret = {}
+		if "detail" == pagekey:
+			ret = {
+				"tpl_file":self.theme_path + '/detail.html',
+				"page_file":self.html_path + '/archives/' + pagename + '.html'
+			}
+		elif "index" == pagekey:
+			ret = {
+				"tpl_file":self.theme_path + '/index.html',
+				"page_file":self.html_path + '/' + pagename + '.html'
+			}
+		elif "category" == pagekey:
+			ret = {
+				"tpl_file":self.theme_path + '/category.html',
+				"page_file":self.html_path + '/category/' + pagename + '.html'
+			}
+		elif "date" == pagekey:
+			ret = {
+				"tpl_file":self.theme_path + '/date.html',
+				"page_file":self.html_path + '/date/' + pagename + '.html'
+			}
+		return ret
 
-		page_file = "./html/archives/"+self.article["blog_guid"]+".html"
-		createFile(page_file, page_html)
+	# 生成页面
+	def createPage(self, pagekey, pagename, assigndata):
+		thr = self.templateHtmlRelation(pagekey, pagename)
+		tpl_content = readFile(thr['tpl_file'])
+
+		template  = Template(tpl_content)
+		page_content = template.assign(assigndata)
+
+		createFile(thr['page_file'], page_content)
 
 		return True
 
-	def createHome(self):
-		pass
-	
-	def createCate(self):
-		pass
 
-	def createDate(self):
-		pass
+	# 生成文章详情页
+	def createDetail(self, guid, data):
+		return self.createPage("detail", guid, data)
+
+	def createIndex(self, data):
+		return self.createPage("index", "index", data)
+	
+	def createCategory(self, notebookguid, data):
+		return self.createPage("category", notebookguid, data)
+
+	def createDate(self, datekey, data):
+		return self.createPage("date", datekey, data)

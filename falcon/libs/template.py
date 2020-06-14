@@ -10,6 +10,8 @@ class Template:
 
 	#变量解析
 	def parsing_var(self, var_name, var_value):
+		if None == var_value: return
+		if False == re.search("{{"+var_name+"}}", self.data): return
 		self.data = self.data.replace("{{"+var_name+"}}", var_value)	
 
 	# 列表字典解析
@@ -30,7 +32,7 @@ class Template:
 			for element_key,element_val in row.items():
 				item_data = item_data.replace(element_name+"."+element_key, element_val)
 
-		output_data += item_data
+			output_data += item_data
 
 		self.data = re.sub(pa, output_data, self.data)
 

@@ -1,29 +1,41 @@
-<!--页头-博客标题-->		
-<div>{{site_title}}</div>
-<!--最新文章标题-->		
-<div>{{post_latest_subject}}</div>
-<!--最新文章简介-->		
-<div>{{post_latest_introduction}}</div>
-<!--最新文章分类-->		
-<div>{{post_latest_category}}</div>
-<!--最新文章发布时间-->		
-<div>{{post_latest_createat}}</div>
-<!--最新文章查看全文-->		
-<div><a href="{{post_latest_url}}">继续阅读全文</a></div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <title>{{site_title}} | {{title}}</title>
+  </head>
 
-<!--最新文件列表-->
-<div>
-最新文章
-{{loop foreach=post_new_list item=item}}
-<div>
-{{item.createat}}
-<a href="{{item.url}}">{{item.subject}}</a>
-</div>
-{{/loop}}
-<div><a href="{{more_article_url}}">更多文章......</a></div>
-</div>
+  <body>
+  <div id="container">
+      <div class="inner">
+        <header>
+          <h1>{{site_title}}</h1>
+          <h2>{{site_desc}}</h2>
+        </header>
+		<section id="downloads" class="clearfix">
+			<a href="{{site_domain}}/archives.html">{{notebook_name}}</a></p>
+        </section>
+		<section id="main_content">
+			<h2 id="welcome-to-github-pages">{{title}}</h2>
+			<p>{{introduction}}</p>
+			<p id="support-or-contact"><a href="{{url}}">继续阅读全文</a></p>
+			<p> 发表日期：{{created}} </p> 
+		</section>
 
-<!--页尾版权信息-->
-<div>
-{{copyright_info}}
+		<section id="main_content">
+			<h3 id="support-or-contact">最新文章</h3>
+			{{loop foreach=recent_list item=item}}
+				<p>{{item.created}} <a href="{{item.url}}">{{item.title}}</a></p>
+			{{/loop}}
+			<p><a href="{{history_url}}">更多文章......</a></p>
+		</section>
+
+		<footer>
+			{{site_copyright}}
+		</footer>
+	</div>
 </div>
+</body>
+</html>
