@@ -64,6 +64,7 @@ if __name__ == "__main__":
 	# 生成首页
 	articles = da.fetchRecentItems(11)
 	for index, row in enumerate(articles):
+		if 0 == index: articles[index]['introduction'] = row['content'][0:56]
 		articles[index]["url"] = pa.fetchPageUrl("detail", row["guid"])
 		del(articles[index]['content'])
 		del(articles[index]['updated'])
