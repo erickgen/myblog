@@ -1,32 +1,40 @@
-<!--站点标题-->		
-<div>
-<div>{{site_title}}</div>
-<div><a href="{{site_domain}}/index.html">首页</a> 》》 <a href="{{site_domain}}/archives.html">列表</a></div>
-</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <title>{{site_title}} | {{title}}</title>
+  </head>
 
-<div>分类：{{cur_name}} （共{{total_number}}篇）</div>
+  <body>
+  <div id="container">
+      <div class="inner">
+        <header>
+          <h1>{{site_title}}</h1>
+          <h2>{{site_desc}}</h2>
+        </header>
+		 <section id="downloads" class="clearfix">
+<p><a href="{{site_domain}}/index.html">首页</a> >> <a href="{{site_domain}}/archives.html">归档</a></p>
+        </section>
 
-<!--文章列表-->
-<div>
-{{loop foreach=article_list item=item}}
-<div>
-{{item.createat}}
-<a href="{{item.url}}">{{item.subject}}</a> {{item.createat}}
-</div>
-{{/loop}}
-</div>
+		<section id="downloads" class="clearfix">
+			{{loop foreach=cate_list item=row}}
+				<p><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></p>
+			{{/loop}}
+        </section>
 
-<!--分类列表-->
-<div>
-分类
-{{loop foreach=category_list item=item}}
-<div>
-<a href="{{item.url}}">{{item.name}}</a>（{{item.number}}）
-</div>
-{{/loop}}
-</div>
+		<section id="main_content">
+			<h3 id="support-or-contact">当前分类：{{notebook_name}}（{{notebook_number}}）</h3>
+			{{loop foreach=note_list item=item}}
+				<p>{{item.created}} <a href="/archives/{{item.guid}}.html">{{item.title}}</a></p>
+			{{/loop}}
+		</section>
 
-<!--页尾版权信息-->
-<div>
-{{copyright_info}}
+		<footer>
+			{{site_copyright}}
+		</footer>
+	</div>
 </div>
+</body>
+</html>

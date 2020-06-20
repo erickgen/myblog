@@ -33,14 +33,14 @@ class Data:
 	# 获取当前记录的上条记录和下一条记录
 	def fetchPrevAndNext(self, guid):
 		json_data = self.fetchItems()
-		cur_index = False
+		cur_index = None
 		for index, row in enumerate(json_data):
 			if guid == row["guid"]:
 				cur_idx = index
 				break
-		if False == cur_idx: return None, None
+		if None == cur_idx: return None, None
 		next_idx = cur_idx - 1
-		if next_idx > 0:
+		if next_idx >= 0:
 			next_row = json_data[next_idx]
 		else:
 			next_row = None
@@ -95,14 +95,18 @@ class Data:
 		return ret_data
 
 	# 获取所有分类信息
-	def fetchCategorys(self):
+	def fetchCategory(self):
 		json_data = self.fetchItems()
 		ret_data  = {}
 		for _, row in enumerate(json_data):
 			key = row["notebook_guid"]
-			if False == ret_data.has_key(key):
-				ret_data[key] = {"number":1, "name":row["notebook_name"]} 
+			if key in ret_data:
+				ret_data[key]["number"] = 1 + ret_data[key]["number"]
 			else:
-				ret_data[key]["number"] += ret_data[key]["number"]
+				ret_data[key] = {"number":1, "name":row["notebook_name"], "notebook_guid":key} 
 
-		return ret_data
+		# 将数据转化为列表
+		ret_list = []
+		for row in ret_data.items():
+			ret_list.append(row[1])
+		return ret_list

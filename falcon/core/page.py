@@ -2,12 +2,21 @@
 from libs.template import Template
 from utils.myfile import createFile
 from utils.myfile import readFile
+from utils.myfile import delDir
+from utils.myfile import copyDir
 
 class Page:
 	def __init__(self, theme_name):
 		self.theme_path = './themes/' + theme_name
-		self.html_path  = './html/'
+		self.html_path  = './html'
 		self.root_path  = ''
+
+	# 更新静态资源
+	def updateAssets(self):
+		target_path = self.html_path + "/assets"
+		delDir(target_path)
+		copyDir(self.theme_path+"/assets", target_path)
+
 
 	# 取得html文件路径
 	def fetchPageUrl(self, pagekey, pagename):
@@ -40,10 +49,10 @@ class Page:
 				"tpl_file":self.theme_path + '/category.html',
 				"page_file":self.html_path + '/category/' + pagename + '.html'
 			}
-		elif "date" == pagekey:
+		elif "archives" == pagekey:
 			ret = {
-				"tpl_file":self.theme_path + '/date.html',
-				"page_file":self.html_path + '/date/' + pagename + '.html'
+				"tpl_file":self.theme_path + '/archives.html',
+				"page_file":self.html_path + '/' + pagename + '.html'
 			}
 		return ret
 
@@ -70,5 +79,5 @@ class Page:
 	def createCategory(self, notebookguid, data):
 		return self.createPage("category", notebookguid, data)
 
-	def createDate(self, datekey, data):
-		return self.createPage("date", datekey, data)
+	def createArchives(self, data):
+		return self.createPage("archives", "archives", data)

@@ -12,6 +12,7 @@ class Template:
 	def parsing_var(self, var_name, var_value):
 		if None == var_value: return
 		if False == re.search("{{"+var_name+"}}", self.data): return
+		var_value = str(var_value)
 		self.data = self.data.replace("{{"+var_name+"}}", var_value)	
 
 	# 列表字典解析
@@ -30,6 +31,9 @@ class Template:
 			item_data = raw_element.replace("{{","")
 			item_data = item_data.replace("}}","")
 			for element_key,element_val in row.items():
+				if None == element_val: continue
+				#print(element_name, element_key, element_val)
+				element_val = str(element_val)
 				item_data = item_data.replace(element_name+"."+element_key, element_val)
 
 			output_data += item_data

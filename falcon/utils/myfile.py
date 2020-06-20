@@ -2,6 +2,7 @@
 
 import os
 import json
+import shutil
 
 # 生成文件
 def createFile(filename, content):
@@ -28,3 +29,11 @@ def readJsonFile(filename):
     if False == os.path.exists(filename): return False
     with open(filename,'r') as load_f: load_dict = json.load(load_f)
     return load_dict
+
+# 复制目录
+def copyDir(oridir, targetdir):
+	shutil.copytree(oridir, targetdir)
+
+# 删除目录
+def delDir(mypath):
+	if os.path.exists(mypath): shutil.rmtree(mypath)
