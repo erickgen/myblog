@@ -17,8 +17,9 @@ class Template:
 
 	# 列表字典解析
 	def parsing_loop(self, var_name, var_value):
-		pa = re.compile(r"\{\{loop\s+foreach\="+var_name+"\s+item=\S+.*\{\{\/loop\}\}", re.S)
+		pa = re.compile(r"\{\{loop\s+foreach\="+var_name+"\s+item=\S+.*?\{\{\/loop\}\}", re.S)
 		re_data  = re.findall(pa, self.data)
+		if 0 == len(re_data): return
 		raw_data = re_data[0]
 		re_data  = re.findall(r"(\{\{loop\s+foreach\="+var_name+"\s+item=(\S+).*\}\})", raw_data)
 		element_name = re_data[0][1]

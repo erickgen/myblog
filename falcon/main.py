@@ -62,7 +62,6 @@ if __name__ == "__main__":
 			"prev_title":prev_title,
 			"next_url":next_url,
 			"next_title":next_title,
-			"cate_list":cates,
 		}
 
 		# 生成详情页
@@ -84,6 +83,7 @@ if __name__ == "__main__":
 	article_arr["site_copyright"] = site_copyright
 	article_arr["archives_url"]   = site_domain + "/archives.html"
 	article_arr["recent_list"]    = articles
+	article_arr["cate_list"]      = cates
 	pa.createIndex(article_arr)
 	# 生成分类列表页
 	for _, notebook_row in enumerate(cates):

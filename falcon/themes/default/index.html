@@ -13,24 +13,39 @@
         <header>
           <h1>{{site_title}}</h1>
           <h2>{{site_desc}}</h2>
+		  <hr>
         </header>
-		<section id="main_content">
-			<h2 id="welcome-to-github-pages">{{title}}
-			<a href="{{site_domain}}/category/{{notebook_guid}}.html">{{notebook_name}}</a>
-			</h2>
+		<div id="row">
+		<section id="main-content">
+			<h1 id="welcome-to-github-pages">{{title}}</a></h1>
+			<hr>
+				<p> <a href="{{site_domain}}/category/{{notebook_guid}}.html">{{notebook_name}}</a></p>
 			<p>{{introduction}}......</p>
-			<p id="support-or-contact"><a href="{{url}}">继续阅读全文</a></p>
+			<p id="support-or-contact"><a href="{{url}}">继续阅读全文 »</a> </p>
 			<p> 发表日期：{{created}} </p> 
-		</section>
-
-		<section id="main_content">
+			<hr>
 			<h3 id="support-or-contact">最新文章</h3>
 			{{loop foreach=recent_list item=item}}
 				<p>{{item.created}} <a href="{{item.url}}">{{item.title}}</a></p>
 			{{/loop}}
 			<p><a href="{{archives_url}}">更多文章......</a></p>
 		</section>
+		<section id="side-content">
+			<div class="card">
+	<h2>分类</h2>
+	<hr>
+    <dl>
+		{{loop foreach=cate_list item=row}}
+			<dd><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></dd>
+        {{/loop}}
+    </dl>
+</div>
+			</div>
+		</section>
+		</div>
 
+		<table>
+		</table>
 		<footer>
 			{{site_copyright}}
 		</footer>

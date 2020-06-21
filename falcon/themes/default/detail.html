@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="/assets/css/style.css">
-	<title>{{site_title}} | {{title}}</title>
+	<title>{{title}}_{{site_title}}</title>
   </head>
 
   <body>
@@ -13,37 +13,44 @@
         <header>
           <h1>{{site_title}}</h1>
           <h2>{{site_desc}}</h2>
+		  <br>
+		  <a href="{{site_domain}}/index.html">首页</a> » <a href="{{site_domain}}/archives.html">归档</a>
+		  <hr>
         </header>
-        <section id="downloads" class="clearfix">
-<p><a href="{{site_domain}}/index.html">首页</a> >> <a href="{{site_domain}}/archives.html">归档</a></p>
-        </section>
+		<table>
+			<tr>
+				<td> 分类：<a href="{{notebook_url}}">{{notebook_name}}</a> </td>
+				<td>
+				上一篇：<a href="{{prev_url}}">{{prev_title}}</a>
+				<br/>
+				下一篇：<a href="{{next_url}}">{{next_title}}</a>
+				</td>
+			</tr>
+        </table>
 
-		<section id="downloads" class="clearfix">
-            {{loop foreach=cate_list item=row}}
-                <p><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></p>
-            {{/loop}}
-        </section>
+        <section id="main-full">
+			<h1 id="welcome-to-github-pages">{{title}}</h1>
+			<hr>
+			<p>作者：<a href="/index.html">{{author}}</a></p>
+			<p>日期：<a href="/index.html">{{created}}</a></p>
+			<p>{{content}}</p>
+		</section>
 
-        <section id="downloads" class="clearfix">
-		<a href="{{notebook_url}}">{{notebook_name}}</a>
-		上一篇：<a href="{{prev_url}}">{{prev_title}}</a>
-		下一篇：<a href="{{next_url}}">{{next_title}}</a>
-        </section>
+	<table>
+	<tr>
+		<th> <h3 id="support-or-contact">文档信息</h3></th>
+	</tr>
+	<tr>
+		<td>
+			<p>版权声明：本文经可自由转载，转载请注明出处。</p>
+			<p>发表日期：{{created}}</p>
+		</td>
+	</tr>
+	</table>
 
-        <section id="main_content">
-          <h2 id="welcome-to-github-pages">{{title}}</h2>
-<p>作者：{{author}}     日期：{{created}}</p>
-<p>{{content}}</p>
-<h3 id="support-or-contact">文档信息</h3>
-<p>
-版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）
-<br/>
-发表日期：{{created}} 
-</p>
-</section>
-<footer>
-	{{site_copyright}}
-</footer>
+	<footer>
+		{{site_copyright}}
+	</footer>
 </div>
 </div>
 </body>
