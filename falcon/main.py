@@ -3,6 +3,7 @@ import configparser
 from core.note import Note
 from core.data import Data
 from core.page import Page
+from utils.string import html2Text
 
 if __name__ == "__main__":
 	conf = configparser.ConfigParser(allow_no_value=True)
@@ -12,6 +13,8 @@ if __name__ == "__main__":
 	site_desc      = conf.get("site", "desc")
 	site_domain    = conf.get("site", "domain")
 	site_copyright = conf.get("site", "copyright")
+	site_email  = conf.get("site", "email")
+	site_github = conf.get("site", "github")
 
 	note  = Note("./config.ini")
 	notes = note.getsContent(1000)
@@ -70,7 +73,7 @@ if __name__ == "__main__":
 	# 生成首页
 	articles = da.fetchRecentItems(8)
 	for index, row in enumerate(articles):
-		if 0 == index: articles[index]['introduction'] = row['content'][0:56]
+		if 0 == index: articles[index]['introduction'] = html2Text(row['content'])[0:100]
 		articles[index]["url"] = pa.fetchPageUrl("detail", row["guid"])
 		del(articles[index]['content'])
 		del(articles[index]['updated'])
@@ -81,6 +84,8 @@ if __name__ == "__main__":
 	article_arr["site_desc"]      = site_desc
 	article_arr["site_domain"]    = site_domain
 	article_arr["site_copyright"] = site_copyright
+	article_arr["site_email"]     = site_email
+	article_arr["site_github"]    = site_github
 	article_arr["archives_url"]   = site_domain + "/archives.html"
 	article_arr["recent_list"]    = articles
 	article_arr["cate_list"]      = cates

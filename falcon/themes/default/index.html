@@ -19,33 +19,46 @@
 		<section id="main-content">
 			<h1 id="welcome-to-github-pages">{{title}}</a></h1>
 			<hr>
-				<p> <a href="{{site_domain}}/category/{{notebook_guid}}.html">{{notebook_name}}</a></p>
+				<p>分类：<a href="{{site_domain}}/category/{{notebook_guid}}.html">{{notebook_name}}</a></p>
 			<p>{{introduction}}......</p>
 			<p id="support-or-contact"><a href="{{url}}">继续阅读全文 »</a> </p>
 			<p> 发表日期：{{created}} </p> 
 			<hr>
 			<h3 id="support-or-contact">最新文章</h3>
+			<hr>
+			<ul>
 			{{loop foreach=recent_list item=item}}
-				<p>{{item.created}} <a href="{{item.url}}">{{item.title}}</a></p>
+				<li>{{item.created}} » <a href="{{item.url}}">{{item.title}}</a></li>
 			{{/loop}}
-			<p><a href="{{archives_url}}">更多文章......</a></p>
+			<li><a href="{{archives_url}}">更多文章......<a></li>
+			<ul>
 		</section>
 		<section id="side-content">
 			<div class="card">
-	<h2>分类</h2>
-	<hr>
-    <dl>
-		{{loop foreach=cate_list item=row}}
-			<dd><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></dd>
-        {{/loop}}
-    </dl>
-</div>
+				<h3>分类</h3>
+				<hr>
+				<ul>
+					{{loop foreach=cate_list item=row}}
+					<li><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></li>
+					{{/loop}}
+				</ul>
 			</div>
+			<br>
+			<div class="card">
+				<h3>关于</h3>
+				<hr>
+				<ul>
+					<li><a href="mailto:{{site_email}}?subject=[来自{{site_title}}]">给我发送邮件</a></li>
+					<li><a href="{{site_github}}">我的Github</a></li>
+				</ul>
+			</div>
+
 		</section>
 		</div>
 
 		<table>
 		</table>
+		<hr>
 		<footer>
 			{{site_copyright}}
 		</footer>

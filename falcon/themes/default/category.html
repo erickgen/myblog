@@ -13,24 +13,35 @@
         <header>
           <h1>{{site_title}}</h1>
           <h2>{{site_desc}}</h2>
+		  <br>
+		  <a href="{{site_domain}}/index.html">首页</a> >> <a href="{{site_domain}}/archives.html">归档</a>
+		  <hr>
         </header>
-		 <section id="downloads" class="clearfix">
-<p><a href="{{site_domain}}/index.html">首页</a> >> <a href="{{site_domain}}/archives.html">归档</a></p>
-        </section>
 
-		<section id="downloads" class="clearfix">
-			{{loop foreach=cate_list item=row}}
-				<p><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></p>
-			{{/loop}}
-        </section>
-
-		<section id="main_content">
-			<h3 id="support-or-contact">当前分类：{{notebook_name}}（{{notebook_number}}）</h3>
+		<section id="main-content">
+			<h3 id="support-or-contact">当前分类：{{notebook_name}}，共有{{notebook_number}}篇文章</h3>
+			<hr>
+			<ul>
 			{{loop foreach=note_list item=item}}
-				<p>{{item.created}} <a href="/archives/{{item.guid}}.html">{{item.title}}</a></p>
+				<li>{{item.created}} <a href="/archives/{{item.guid}}.html">{{item.title}}</a></li>
 			{{/loop}}
+			</ul>
 		</section>
+		<section id="side-content">
+            <div class="card">
+                <h3>分类</h3>
+                <hr>
+                <ul>
+                    {{loop foreach=cate_list item=row}}
+                    <li><a href="/category/{{row.notebook_guid}}.html">{{row.name}}（{{row.number}}）</a></li>
+                    {{/loop}}
+                </ul>
+            </div>
+        </section>
 
+		<table>
+		</table>
+		<hr>
 		<footer>
 			{{site_copyright}}
 		</footer>

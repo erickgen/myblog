@@ -14,3 +14,8 @@ def xml2Html(xml_content):
         element_image = "<img src='/upload/"+img+".png'/>"
         html = html.replace(row, element_image)
     return html
+
+def html2Text(html):
+	pattern = re.compile(r'<[^>]+>',re.S)
+	result = pattern.sub('', html)
+	return result
