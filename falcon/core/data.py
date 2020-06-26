@@ -27,6 +27,7 @@ class Data:
 	# 读取数据内容
 	def fetchItems(self):
 		json_data = readJsonFile(self.filename)
+		if False == json_data: return []
 		json_data = sorted(json_data, key=lambda keys:keys['created'], reverse=True)
 		return json_data
 
