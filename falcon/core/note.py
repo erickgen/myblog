@@ -23,9 +23,17 @@ class Note:
 		sandbox = self.conf.get("env", "sandbox")
 		china   = self.conf.get("env", "china")
 		if 'True' == sandbox:
+			sandbox = True
 			auth_token = self.conf.get("yinxiang", "devtoken")
 		else:
+			sandbox = False
 			auth_token = self.conf.get("yinxiang", "prodtoken")
+
+		if 'True' == china:
+			china = True
+		else:
+			china = False
+
 		self.client = EvernoteClient(token=auth_token, sandbox=sandbox, china=china)
 
 	def check(self):
